@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Owner; // Eloquent エロクアント
 use Illuminate\Support\Facades\DB; // Query Builder クエリビルダー
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Hash; // ハッシュ化
 
 class OwnersController extends Controller
 {
@@ -63,7 +64,23 @@ class OwnersController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|max:255|email|unique:owners',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        Owner::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+
+
+
+        return redirect()
+        ->route('admin.owners.index')
+        ->with('message', 'オーナーを登録しました。');
     }
 
     /**
