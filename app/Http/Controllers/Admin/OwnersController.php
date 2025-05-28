@@ -5,9 +5,12 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Owner; // Eloquent エロクアント
+use App\Models\Shop; // Eloquent エロクアント
 use Illuminate\Support\Facades\DB; // Query Builder クエリビルダー
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash; // ハッシュ化
+use Illuminate\Support\Facades\Log; // ログ出力
+use Throwable; // 例外処理
 
 class OwnersController extends Controller
 {
@@ -70,11 +73,28 @@ class OwnersController extends Controller
             'password' => 'required|string|min:8|confirmed',
         ]);
 
-        Owner::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
+        try{
+            DB::transaction(function () use ($request) {
+               $owner = Owner::create([
+                  'name' => $request->name,
+                  'email' => $request->email,
+                  'password' => Hash::make($request->password),
+                ]);
+
+                Shop::create([
+                    'owner_id' => $owner->id,
+                    'name' => $request->name . 'のショップ',
+                    'information' => '',
+                    'filename' => '',
+                    'is_selling' => true,
+                ]);
+            },2);
+        }catch(Throwable $e){
+            Log::erorr($e);
+            throw $e;
+        }
+
+
 
 
 
