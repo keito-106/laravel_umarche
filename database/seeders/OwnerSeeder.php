@@ -37,6 +37,27 @@ class OwnerSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
              ],
+             [
+                'name' => 'testadmin4',
+                'email' => 'test4@test.com',
+                'password' => Hash::make('password123'),
+                'created_at' => now(),
+                'updated_at' => now(),
+             ],
+             [
+                'name' => 'testadmin5',
+                'email' => 'test5@test.com',
+                'password' => Hash::make('password123'),
+                'created_at' => now(),
+                'updated_at' => now(),
+             ],
+             [
+                'name' => 'testadmin6',
+                'email' => 'test6@test.com',
+                'password' => Hash::make('password123'),
+                'created_at' => now(),
+                'updated_at' => now(),
+             ],
         ]);
     }
 }
