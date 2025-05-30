@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Shop; // Assuming you have a Shop model
+use Illuminate\Support\Facades\Storage;
 
 class ShopController extends Controller
 {
@@ -14,8 +15,11 @@ class ShopController extends Controller
          $this->middleware('auth:owners');
 
          $this->middleware(function ($request, $next) {
+
             // dd($request->route()->parameter('shop'));  //文字列
             // dd(Auth::id()); //整数
+            // $shop = Shop::findOrFail($id);
+            // dd('Shop owner relationship:', $shop->owner, 'Shop details:', $shop);
 
             $id = $request->route()->parameter('shop'); //shopのid取得
             if(!is_null($id)){ // nul判定
@@ -27,6 +31,7 @@ class ShopController extends Controller
                }
             }
             return $next($request);
+
 
          });
      }
@@ -42,11 +47,18 @@ class ShopController extends Controller
      public function edit($id)
      {
          // Logic to edit the shop
-         dd(Shop::findOrFail($id));
+         $shop = Shop::findOrFail($id);
+         // dd(Shop::findOrFail($id));
+         return view('owner.shops.edit', compact('shop'));
      }
 
      public function update(Request $request, $id)
      {
          // Logic to update the shop
+         $imageFile = $request->file('image'); //一時保存
+         if(!is_null($imageFile) && $imageFile->isValid() ){
+            Storage::putFile('public/shops', $imageFile);
+         }
+         return redirect()->route('owner.shops.index');
      }
 }
