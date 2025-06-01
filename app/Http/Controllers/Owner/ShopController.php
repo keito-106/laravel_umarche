@@ -9,6 +9,7 @@ use App\Models\Shop; // Assuming you have a Shop model
 use Illuminate\Support\Facades\Storage;
 use InterventionImage;
 use App\Http\Requests\UploadImageRequest; // Assuming you have a custom request for image upload
+use App\Services\ImageService; // Assuming you have an ImageService for handling image uploads
 
 
 class ShopController extends Controller
@@ -60,14 +61,7 @@ class ShopController extends Controller
          // Logic to update the shop
          $imageFile = $request->file('image'); //一時保存
          if(!is_null($imageFile) && $imageFile->isValid() ){
-            // Storage::putFile('public/shops', $imageFile); リサイズ無しの場合
-            $fileName = uniqid(rand().'_');
-            $extension = $imageFile->extension();
-            $fileNameToStore = $fileName. '.' . $extension;
-            $resizedImage = InterventionImage::make($imageFile)->resize(1920, 1080)->encode();
-            // dd($imageFile, $resizedImage);
-
-            Storage::put('public/shops/' . $fileNameToStore, $resizedImage );
+            $fileNameToStore = ImageService::upload($imageFile, 'shops'); // ImageServiceを利用して画像を保存
          }
          return redirect()->route('owner.shops.index');
      }
