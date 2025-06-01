@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Shop; // Assuming you have a Shop model
 use Illuminate\Support\Facades\Storage;
 use InterventionImage;
+use App\Http\Requests\UploadImageRequest; // Assuming you have a custom request for image upload
 
 
 class ShopController extends Controller
@@ -54,7 +55,7 @@ class ShopController extends Controller
          return view('owner.shops.edit', compact('shop'));
      }
 
-     public function update(Request $request, $id)
+     public function update(UploadImageRequest $request, $id)
      {
          // Logic to update the shop
          $imageFile = $request->file('image'); //一時保存
