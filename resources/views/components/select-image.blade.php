@@ -1,20 +1,23 @@
   @php
       if ($name === 'image1') {
-          $modal1 = 'moda-1';
+          $modal1 = 'modal-1';
       }
       if ($name === 'image2') {
-          $modal1 = 'moda-2';
+          $modal1 = 'modal-2';
       }
       if ($name === 'image3') {
-          $modal1 = 'moda-3';
+          $modal1 = 'modal-3';
       }
       if ($name === 'image4') {
-          $modal1 = 'moda-4';
+          $modal1 = 'modal-4';
+      }
+      if ($name === 'image5') {
+          $modal1 = 'modal-5';
       }
   @endphp
 
   <div class="modal micromodal-slide" id="{{ $modal1 }}" aria-hidden="true">
-      <div class="modal__overlay" tabindex="-1" data-micromodal-close>
+      <div class="modal__overlay z-50" tabindex="-1" data-micromodal-close>
           <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="{{ $modal1 }}-title">
               <header class="modal__header">
                   <h2 class="text-xl text-gray-700" id="{{ $modal1 }}-title">
@@ -47,7 +50,7 @@
 
 
   <div class="flex justify-around items-center mb-4">
-      <a data-micromodal-trigger="{{ $modal1 }}" href='javascript:;'>ファイルを選択</a>
+      <a class="py-2 px-4 bg-gray-200" data-micromodal-trigger="{{ $modal1 }}" href='javascript:;'>ファイルを選択</a>
       <div class="w-1/4">
           <img id="{{ $name }}_thumbnail" src="">
       </div>
