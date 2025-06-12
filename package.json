@@ -20,6 +20,7 @@
         "tailwindcss": "^3.1.0"
     },
     "dependencies": {
-        "micromodal": "^0.6.1"
+        "micromodal": "^0.6.1",
+        "swiper": "^6.7.0"
     }
 }
