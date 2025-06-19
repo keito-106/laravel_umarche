@@ -16,7 +16,7 @@
                                 <div class="swiper-wrapper">
                                     <!-- Slides -->
                                     <div class="swiper-slide">
-                                        @if ($product->imageFirst->filename !== null)
+                                        @if ($product->imageFirst)
                                             <img
                                                 src="{{ asset('storage/products/' . $product->imageFirst->filename) }}">
                                         @else
@@ -24,7 +24,7 @@
                                         @endif
                                     </div>
                                     <div class="swiper-slide">
-                                        @if ($product->imageSecond->filename !== null)
+                                        @if ($product->imageSecond)
                                             <img
                                                 src="{{ asset('storage/products/' . $product->imageSecond->filename) }}">
                                         @else
@@ -32,7 +32,7 @@
                                         @endif
                                     </div>
                                     <div class="swiper-slide">
-                                        @if ($product->imageThird->filename !== null)
+                                        @if ($product->imageThird)
                                             <img
                                                 src="{{ asset('storage/products/' . $product->imageThird->filename) }}">
                                         @else
@@ -40,7 +40,7 @@
                                         @endif
                                     </div>
                                     <div class="swiper-slide">
-                                        @if ($product->imageFourth->filename !== null)
+                                        @if ($product->imageFourth)
                                             <img
                                                 src="{{ asset('storage/products/' . $product->imageFourth->filename) }}">
                                         @else
