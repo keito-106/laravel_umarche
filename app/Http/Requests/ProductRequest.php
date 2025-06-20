@@ -31,11 +31,11 @@ class ProductRequest extends FormRequest
             'quantity' => 'required|integer|between:0,99',
             'shop_id' => 'required|exists:shops,id',
             'category' => 'required|exists:secondary_categories,id',
-            'image1' => 'nullable|exsist:images,id',
-            'image2' => 'nullable|exsist:images,id',
-            'image3' => 'nullable|exsist:images,id',
-            'image4' => 'nullable|exsist:images,id',
-            'is_selling' => 'boolean',
+            'image1' => 'nullable|exists:images,id',
+            'image2' => 'nullable|exists:images,id',
+            'image3' => 'nullable|exists:images,id',
+            'image4' => 'nullable|exists:images,id',
+            'is_selling' => 'required|boolean',
         ];
     }
 }
