@@ -19,7 +19,7 @@
                         @endforeach
                     </select>
                     <div class="flex space-x-2 items-center">
-                        <div><input name="keyword" class="lg:mr-2" placeholder="キーワードを入力"></div>
+                        <div><input name="keyword" class="lg:mr-2" placeholder="何をお探しですか？"></div>
                         <div><button
                                 class="text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">検索する</button>
                         </div>
