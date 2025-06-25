@@ -35,7 +35,8 @@ class AuthenticatedSessionController extends Controller
 
         Log::debug('admin', $request->session()->all());
 
-        return redirect(RouteServiceProvider::ADMIN_HOME);
+        return redirect()->route('admin.owners.index');
+
     }
 
     /**

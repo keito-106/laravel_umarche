@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Application;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -30,6 +32,21 @@ class AppServiceProvider extends ServiceProvider
         // adminから始まるURL
         if (request()->is('admin*')) {
            config(['session.cookie' => config('session.cookie_admin')]);
+        }
+
+        if (! app()->runningInConsole()) {
+            Route::middleware('web')
+                ->prefix('admin')
+                ->name('admin.')
+                ->group(base_path('routes/admin.php'));
+
+            Route::middleware('web')
+                ->prefix('owner')
+                ->name('owner.')
+                ->group(base_path('routes/owner.php'));
+
+            Route::middleware('web')
+                ->group(base_path('routes/auth.php'));
         }
     }
 }

@@ -35,7 +35,8 @@ class AuthenticatedSessionController extends Controller
 
         Log::debug('owner', $request->session()->all());
 
-        return redirect()->intended(RouteServiceProvider::OWNER_HOME);
+        return redirect()->route('owner.products.index');
+
     }
 
     /**
