@@ -73,7 +73,7 @@
                                         (税込)
                                     </span>
                                 </span>
-                                <form class="flex" method="post" action="{{ route('user.cart.add') }}">
+                                <form class="flex" method="post" action="{{ route('cart.add') }}">
                                     @csrf
                                     <div class="flex items-center ml-4">
                                         <span class="mr-3">数量</span>

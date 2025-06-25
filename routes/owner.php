@@ -42,9 +42,9 @@ Route::resource('images', ImageController::class)
 Route::resource('products', ProductController::class)
     ->middleware('auth:owners')->except(['show']);
 
-Route::get('/dashboard', function () {
-    return view('owner.dashboard');
-})->middleware(['auth:owners'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//    return view('owner.dashboard');
+// })->middleware(['auth:owners'])->name('dashboard');
 
 
 Route::middleware('guest')->group(function () {

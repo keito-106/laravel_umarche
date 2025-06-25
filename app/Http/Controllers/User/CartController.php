@@ -47,7 +47,7 @@ class CartController extends Controller
                 ]);
             }
 
-            return redirect()->route('user.cart.index');
+            return redirect()->route('cart.index');
     }
 
     public function delete($id)
@@ -56,7 +56,7 @@ class CartController extends Controller
             ->where('user_id', Auth::id())
             ->delete();
 
-            return redirect()->route('user.cart.index');
+            return redirect()->route('cart.index');
     }
 
     public function checkout()
@@ -72,7 +72,7 @@ class CartController extends Controller
         $quantity = Stock::where('product_id', $product->id)->sum('quantity');
 
         if($product->pivot->quantity > $quantity){
-           return redirect()->route('user.cart.index');
+           return redirect()->route('cart.index');
         } else {
             $lineItem = [
                         'price_data' => [ // ★ 'price_data' オブジェクトで価格情報をまとめる
@@ -105,8 +105,8 @@ class CartController extends Controller
             'line_items' => [$lineItems],
             'mode' => 'payment',
 
-            'success_url' => route('user.cart.success'),
-            'cancel_url' => route('user.cart.cancel'),
+            'success_url' => route('cart.success'),
+            'cancel_url' => route('cart.cancel'),
         ]);
 
         $publicKey = env('STRIPE_PUBLIC_KEY');
@@ -131,7 +131,7 @@ class CartController extends Controller
         ////
         Cart::where('user_id', Auth::id())->delete();
 
-        return redirect()->route('user.items.index')->with([
+        return redirect()->route('items.index')->with([
             'success' => '決済が完了しました。'
         ]);
      }
@@ -148,7 +148,7 @@ class CartController extends Controller
                 ]);
         }
 
-        return redirect()->route('user.cart.index')->with([
+        return redirect()->route('cart.index')->with([
             'error' => '決済がキャンセルされました。'
         ]);
      }

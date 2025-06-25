@@ -27,8 +27,7 @@
                                             class="text-gray-700">(税込)</span></div>
                                 </div>
                                 <div class="md:w-2/12">
-                                    <form method="post"
-                                        action="{{ route('user.cart.delete', ['item' => $product->id]) }}">
+                                    <form method="post" action="{{ route('cart.delete', ['item' => $product->id]) }}">
                                         @csrf
                                         <button>
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -46,7 +45,7 @@
                                 class="text-sm text-gray-700">(税込)</span>
                         </div>
                         <div>
-                            <button onclick="location.href='{{ route('user.cart.checkout') }}'"
+                            <button onclick="location.href='{{ route('cart.checkout') }}'"
                                 class="flex ml-auto text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded">購入する
                             </button>
                         </div>
