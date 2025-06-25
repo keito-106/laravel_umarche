@@ -147,59 +147,57 @@ class ProductController extends Controller
 
     public function update(ProductRequest $request, $id)
     {
-        $request->validate([
-            'current_quantity' => 'required|integer',
-        ]);
+        try{
+            DB::transaction(function () use ($request, $id) {
+                $product = Product::findOrFail($id);
 
-        $product = Product::findOrFail($id);
-        $quantity = Stock::where('product_id', $product->id)->sum('quantity');
-
-        if($request->current_quantity !== $quantity){
-            $id = $request->route()->parameter('product');
-            return redirect()
-            ->route('owner.products.edit', ['product' => $id])
-            ->with(['message' => '在庫数が変更されているため、更新できません。',
-            'status' => 'alert' ]);
-
-        } else {
-
-            try{
-            DB::transaction(function () use ($request, $product) {
-
-                  $product->name = $request->name;
-                  $product->information = $request->information;
-                  $product->price = $request->price;
-                  $product->sort_order = $request->sort_order;
-                  $product->shop_id = $request->shop_id;
-                  $product->secondary_category_id = $request->category;
-                  if ($request->image1) {
-                      $product->image1 = $request->image1;
-                  }
-                  if ($request->image2) {
-                      $product->image2 = $request->image2;
-                  }
-                  if ($request->image3) {
-                      $product->image3 = $request->image3;
-                  }
-                  if ($request->image4) {
-                      $product->image4 = $request->image4;
-                  }
-                  $product->is_selling = $request->is_selling;
-                  $product->save();
-
+                // 在庫の増減数を計算
+                $newQuantity = 0;
                 if($request->type === \Constant::PRODUCT_LIST['add']){
                     $newQuantity = $request->quantity;
                 }
                 if($request->type === \Constant::PRODUCT_LIST['reduce']){
                     $newQuantity = $request->quantity * -1;
                 }
-                Stock::create([
-                    'product_id' => $product->id,
-                    'type' => $request->type,
-                    'quantity' => $newQuantity,
-                   ]);
-            },2);
-        }catch(Throwable $e){
+
+                // 商品情報を更新
+                if ($request->name) { $product->name = $request->name; }
+                if ($request->information) { $product->information = $request->information; }
+                if ($request->price) { $product->price = $request->price; }
+                if ($request->sort_order) { $product->sort_order = $request->sort_order; }
+                if ($request->shop_id) { $product->shop_id = $request->shop_id; }
+                if ($request->category) { $product->secondary_category_id = $request->category; }
+                if ($request->image1) { $product->image1 = $request->image1; }
+                if ($request->image2) { $product->image2 = $request->image2; }
+                if ($request->image3) { $product->image3 = $request->image3; }
+                if ($request->image4) { $product->image4 = $request->image4; }
+                // is_selling は、この後の在庫数チェックで自動設定されるため、ここでは更新しない
+
+                // 在庫の増減がある場合のみStockレコードを作成
+                if ($newQuantity !== 0) {
+                    Stock::create([
+                        'product_id' => $product->id,
+                        'type' => $request->type,
+                        'quantity' => $newQuantity,
+                    ]);
+                }
+
+                // ▼▼▼ ここからが新しいロジック ▼▼▼
+                // 変更後の合計在庫数を取得
+                $currentStock = Stock::where('product_id', $product->id)->sum('quantity');
+
+                // 合計在庫数が0以下なら「停止中」に、そうでなければ「販売中」に設定
+                if ($currentStock <= 0) {
+                    $product->is_selling = 0; // 停止中
+                } else {
+                    $product->is_selling = 1; // 販売中
+                }
+                // ▲▲▲ ここまでが新しいロジック ▲▲▲
+
+                $product->save();
+
+            }, 2);
+        }catch(\Throwable $e){
             Log::error($e);
             throw $e;
         }
@@ -209,9 +207,6 @@ class ProductController extends Controller
         ->route('owner.products.index')
         ->with(['message' => '商品情報を更新しました。',
         'status' => 'info' ]);
-
-        }
-
     }
 
     /**
