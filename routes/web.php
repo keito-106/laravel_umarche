@@ -5,6 +5,7 @@ use App\Http\Controllers\ComponentTestController;
 use App\Http\Controllers\LifeCycleTestController;
 use App\Http\Controllers\User\ItemController;
 use App\Http\Controllers\User\CartController;
+use App\Http\Controllers\User\StaticPageController;
 
 
 /*
@@ -18,13 +19,10 @@ use App\Http\Controllers\User\CartController;
 |
 */
 
-Route::get('/', function () {
-    return view('user.welcome');
-});
+Route::get('/', [ItemController::class, 'index'])->name('items.index');
 
 Route::middleware('auth:users')->group(function(){
-         Route::get('/', [ItemController::class,'index'])->name('items.index');
-         Route::get('show/{item}',[ItemController::class, 'show'])->name('items.show');
+    Route::get('show/{item}',[ItemController::class, 'show'])->name('items.show');
 });
 
 Route::prefix('cart')->middleware('auth:users')->group(function(){
@@ -44,6 +42,9 @@ Route::get('/component-test1', [ComponentTestController::class, 'showComponent1'
 Route::get('/component-test2', [ComponentTestController::class, 'showComponent2']);
 Route::get('/servicecontainertest', [LifeCycleTestController::class, 'showServiceContainerTest']);
 Route::get('/serviceprovidertest', [LifeCycleTestController::class, 'showServiceProviderTest']);
+
+Route::get('legal', [StaticPageController::class, 'legal'])->name('legal');
+Route::get('privacy', [StaticPageController::class, 'privacy'])->name('privacy');
 
 
 
