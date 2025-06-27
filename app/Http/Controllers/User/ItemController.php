@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\TestMail;
 use App\Jobs\SendThanksMail;
 use Illuminate\Support\Facades\Auth;
-
 class ItemController extends Controller
 {
 
