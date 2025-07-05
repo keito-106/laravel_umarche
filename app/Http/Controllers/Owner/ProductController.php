@@ -13,6 +13,7 @@ use App\Models\Owner;
 use App\Models\Stock;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\ProductRequest;
+use Illuminate\Support\Facades\Log;
 
 class ProductController extends Controller
 {

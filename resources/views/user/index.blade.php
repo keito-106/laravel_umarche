@@ -64,30 +64,33 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto lg:px-6">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
                     <x-flash-message status="success" />
-                    <div class="flex flex-wrap">
+                    <div class="grid grid-cols-3 lg:grid-cols-5 gap-4">
                         @foreach ($products as $product)
-                            <div class="w-1/4 p-2 md:p-4">
+                            <div class="w-full">
                                 <a href="{{ route('items.show', ['item' => $product->id]) }}">
-                                    <div class="border rounded-md p-2 md:p-4">
-                                        <x-thumbnail filename="{{ $product->filename ?? '' }}" type="products" />
-                                        <div class="mt-4">
-                                            <h3 class="text-gray-500 text-xs tracking-widest title-font mb-1">
-                                                {{ $product->category }}
-                                            </h3>
-                                            <h2 class="text-gray-900 title-font text-lg font-medium">
-                                                {{ $product->name }}</h2>
-                                            <p class="mt-1">
-                                                ¥{{ number_format($product->price) }}<spav
-                                                    class="text-sm text-gray-700">
-                                                    (税込)
-                                                </spav>
+                                    {{-- 2. カード全体: overflow-hiddenで角の丸みを綺麗に --}}
+                                    <div class="border rounded-md overflow-hidden">
+
+                                        {{-- 3. 画像エリア: 正方形を維持 --}}
+                                        <div class="w-full aspect-square">
+                                            <x-thumbnail filename="{{ $product->filename ?? '' }}" type="products" />
+                                        </div>
+
+                                        {{-- 4. テキストエリア: 余白と高さを調整 --}}
+                                        <div class="p-2">
+                                            <h2 class="text-gray-900 text-sm font-medium line-clamp-2 h-10">
+                                                {{ $product->name }}
+                                            </h2>
+                                            <p class="mt-1 text-sm">
+                                                ¥{{ number_format($product->price) }}<span
+                                                    class="text-xs text-gray-700 hidden md:inline">(税込)</span>
                                             </p>
                                         </div>
-                                        <div class="text-gray-700">{{ $product->name }}</div>
+
                                     </div>
                                 </a>
                             </div>
