@@ -14,10 +14,10 @@
                         <button onclick="location.href='{{ route('owner.products.create') }}'"
                             class=" text-white bg-green-500 border-0 py-2 px-8 focus:outline-none hover:bg-green-600 rounded text-lg">新規登録</button>
                     </div>
-                    <div class="flex flex-wrap">
+                    <div class="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
 
                         @foreach ($products as $product)
-                            <div class="w-1/3 md:w-1/4 lg:w-1/5 p-2 md:p-4">
+                            <div class="w-full">
                                 <a href="{{ route('owner.products.edit', ['product' => $product->id]) }}">
                                     <div class="relative border rounded-md overflow-hidden">
                                         @if (!$product->is_selling)

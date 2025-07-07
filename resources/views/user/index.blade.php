@@ -68,10 +68,10 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
                     <x-flash-message status="success" />
-                    <div class="flex flex-wrap -m-2 md:-m-4">
+                    <div class="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
                         @foreach ($products as $product)
                             {{-- 子要素にパディング (p-*) を追加します --}}
-                            <div class="w-1/3 md:w-1/4 lg:w-1/5 p-2 md:p-4">
+                            <div class="w-full">
                                 <a href="{{ route('items.show', ['item' => $product->id]) }}">
                                     <div class="border rounded-md overflow-hidden">
                                         <div class="w-full aspect-square">
