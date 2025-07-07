@@ -127,7 +127,3 @@ php artisan serve
 ```bash
 php artisan queue:work
 ```
-
-```
-
-```
