@@ -817,6 +817,9 @@ select{
 .inset-0{
   inset: 0px;
 }
+.-left-8{
+  left: -2rem;
+}
 .left-0{
   left: 0px;
 }
@@ -825,9 +828,6 @@ select{
 }
 .top-0{
   top: 0px;
-}
-.-left-8{
-  left: -2rem;
 }
 .top-3{
   top: 0.75rem;
@@ -1018,9 +1018,6 @@ select{
 }
 .h-full{
   height: 100%;
-}
-.h-auto{
-  height: auto;
 }
 .min-h-screen{
   min-height: 100vh;
@@ -1384,10 +1381,6 @@ select{
 .fill-current{
   fill: currentColor;
 }
-.object-contain{
-  -o-object-fit: contain;
-     object-fit: contain;
-}
 .object-cover{
   -o-object-fit: cover;
      object-fit: cover;
@@ -1460,10 +1453,6 @@ select{
   padding-top: 2rem;
   padding-bottom: 2rem;
 }
-.py-0{
-  padding-top: 0px;
-  padding-bottom: 0px;
-}
 .pb-0{
   padding-bottom: 0px;
 }
@@ -1499,9 +1488,6 @@ select{
 }
 .pt-8{
   padding-top: 2rem;
-}
-.pb-6{
-  padding-bottom: 1.5rem;
 }
 .text-left{
   text-align: left;
@@ -1969,9 +1955,6 @@ select{
   .sm\:flex-1{
     flex: 1 1 0%;
   }
-  .sm\:grid-cols-3{
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
   .sm\:flex-row{
     flex-direction: row;
   }
@@ -2125,9 +2108,6 @@ select{
   .lg\:w-2\/3{
     width: 66.666667%;
   }
-  .lg\:max-w-6xl{
-    max-width: 72rem;
-  }
   .lg\:grid-cols-4{
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
@@ -2144,10 +2124,6 @@ select{
   .lg\:px-8{
     padding-left: 2rem;
     padding-right: 2rem;
-  }
-  .lg\:px-12{
-    padding-left: 3rem;
-    padding-right: 3rem;
   }
 }
 .rtl\:flex-row-reverse:where([dir="rtl"], [dir="rtl"] *){
