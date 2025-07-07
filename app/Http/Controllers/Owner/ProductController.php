@@ -39,20 +39,16 @@ class ProductController extends Controller
 
     public function index()
     {
-        // $products = Owner::findOrFail(Auth::id())->shop->product;
-        $ownerInfo = Owner::with('shop.product.imageFirst')
-        ->where('id', Auth::id())
-        ->get();
+        // 現在認証されているオーナーが所有する店舗のIDを取得します
+        $shopId = \App\Models\Shop::where('owner_id', \Illuminate\Support\Facades\Auth::id())->value('id');
 
-        // dd($ownerInfo);
-        // foreach ($ownerInfo as $owner) {
-            // dd($owner->shop->product);
-        //    foreach($owner->shop->product as $product){
-        //        dd($product->imageFirst->filename);
-        //    }
-        // }
+        // 上記店舗IDに紐づく商品を、ページネーションで20件ずつ取得します
+        $products = \App\Models\Product::where('shop_id', $shopId)
+            ->with('imageFirst') // N+1問題対策
+            ->paginate(20);
 
-        return view('owner.products.index', compact('ownerInfo'));
+        // ビューに、ページ分割された `$products` 変数を渡します
+        return view('owner.products.index', compact('products'));
     }
 
     /**
