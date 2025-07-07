@@ -31,77 +31,103 @@
 -   **メールアドレス:** `test@test.com`
 -   **パスワード:** `password123`
 
-## ダウンロード方法
+## ローカルでの開発環境構築手順
 
-git clone
-git clone https://github.com/aokitashipro/laravel_umarche
+#### 1. プロジェクトのクローン
 
-git clone ブランチを指定してダウンロードする場合
-git clone -b ブランチ名 https://github.com/aokitashipro/laravel_umarche
+以下のコマンドで、このリポジトリをあなたの PC にクローンします。
 
-もしくは zip ファイルでダウンロードしてください
+```bash
+git clone [https://github.com/keito-106/laravel_umarche.git](https://github.com/keito-106/laravel_umarche.git)
+```
 
-## インストール方法
+#### 2. プロジェクトディレクトリへの移動
 
+```bash
 cd laravel_umarche
+```
+
+#### 3. 依存関係のインストール
+
+```bash
 composer install
 npm install
+```
+
+#### 4. フロントエンドアセットのビルド
+
+```bash
 npm run dev
+```
 
-.env.example をコピーして .env ファイルを作成
+#### 5. 環境設定ファイルの準備
 
-.env ファイルの内容をご利用の環境に合わせて変更してください。
+`.env.example`ファイルをコピーして、`.env`ファイルを作成します。
 
+```bash
+cp .env.example .env
+```
+
+作成した`.env`ファイルを開き、あなたのローカル開発環境に合わせて、以下の項目を修正してください。
+
+```env
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
 DB_DATABASE=laravel_umarche
 DB_USERNAME=umarche
 DB_PASSWORD=password123
+```
 
-XAMPP/MAMP または他の開発環境で DB を起動した後に
+#### 6. アプリケーションキーの生成
 
+```bash
+php artisan key:generate
+```
+
+#### 7. データベースの構築
+
+XAMPP や MAMP などの開発環境でデータベースサーバーを起動した後、以下のコマンドを実行してください。
+これにより、データベースにテーブルが作成され、初期データが投入されます。
+
+```bash
 php artisan migrate:fresh --seed
+```
 
-と実行してください。(データベーステーブルとダミーデータが追加されれば OK)
+#### 8. 画像ファイルの配置
 
-最後に php artisan key:generate
-と入力してキーを生成後、
-(laravel を composer でダウンロードした際は自動生成されます)
+このプロジェクトで使用する画像ファイルは、Git の管理対象外になっています。
+`php artisan storage:link`コマンドで`public/storage`へのシンボリックリンクを作成した後、ダミーの画像ファイルを以下のディレクトリに配置してください。
 
+-   商品画像: `storage/app/public/products/`
+-   ショップ画像: `storage/app/public/shops/`
+
+#### 9. 開発サーバーの起動
+
+全ての準備が整いました。以下のコマンドで簡易サーバーを立ち上げ、ブラウザで動作確認してください。
+
+```bash
 php artisan serve
-で簡易サーバーを立ち上げ、表示確認してください。
+```
 
-## インストール後の実施事項
+---
 
-画像のダミーデータは
-public/images フォルダ内に
-sample1.jpg ~ sample6.jpg として
-保存しています。
+## 補足事項
 
-php artisan storage:link で
-storage フォルダにリンク後、
+### 決済機能（Stripe）について
 
-storage/app/public/products フォルダ内に
-保存すると表示されます。
-(products フォルダがない場合は作成してください。)
+決済のテストとして Stripe を使用しています。決済機能を試す場合は、`.env`ファイルにあなた自身の Stripe テスト用 API キーを追記してください。
 
-ショップの画像も表示する場合は、
-storage/app/public/shops フォルダを作成し、
-画像を保存してください。
+### メール送信（Mailtrap）とキューについて
 
-## section7 の補足
+メール送信のテストとして Mailtrap を使用しています。メール機能を試す場合は、`.env`ファイルにあなた自身の Mailtrap の情報を追記してください。
 
-決済のテストとして stripe を使用しています。
-必要な場合は .env に stripe の情報を追記してください。
+メール処理はバックグラウンドで非同期に実行される**キュー**を使用しています。メール送信をテストする際は、以下のコマンドでキューワーカーを立ち上げる必要があります。
 
-## section8 の補足
+```bash
+php artisan queue:work
+```
 
-メールのテストとして mailtrap を使用しています。
-必要な場合は.env に mailtrap の情報を追記してください。
+```
 
-メール処理には時間がかかるので、
-キューを使用しています。
-
-必要な場合は php artisan queue:work で
-ワーカーを立ち上げて動作確認するようにしてください。
+```
